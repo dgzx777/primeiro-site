@@ -6,282 +6,180 @@
 <title>Guia Visual de Redes para Automação</title>
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial, Helvetica, sans-serif;
-}
-
 body{
-    background:#f4f6f9;
+    font-family: Arial, sans-serif;
+    margin:0;
+    background:#f0f2f5;
 }
 
 header{
-    background:#0d47a1;
+    background:#0b5ed7;
     color:white;
+    padding:20px;
     text-align:center;
+}
+
+nav{
+    display:flex;
+}
+
+nav button{
+    flex:1;
+    padding:15px;
+    border:none;
+    background:#1f6fe5;
+    color:white;
+    cursor:pointer;
+    font-size:16px;
+}
+
+nav button:hover{
+    background:#0b5ed7;
+}
+
+section{
+    display:none;
     padding:20px;
 }
 
-.tabs{
-    display:flex;
-    justify-content:center;
-    background:#1565c0;
-}
-
-.tab{
-    padding:15px 25px;
-    color:white;
-    cursor:pointer;
-    transition:.3s;
-}
-
-.tab:hover{
-    background:#0d47a1;
-}
-
-.tab.active{
-    background:#08306b;
-}
-
-.content{
-    display:none;
-    padding:30px;
-}
-
-.content.active{
+section.ativo{
     display:block;
 }
 
 .cards{
     display:flex;
     gap:20px;
-    justify-content:center;
     flex-wrap:wrap;
 }
 
 .card{
-    width:220px;
     background:white;
-    padding:20px;
     border-radius:10px;
-    text-align:center;
+    padding:20px;
+    width:200px;
     cursor:pointer;
-    box-shadow:0 3px 10px rgba(0,0,0,.15);
-    transition:.3s;
+    box-shadow:0 0 10px rgba(0,0,0,.2);
+    text-align:center;
 }
 
 .card:hover{
-    transform:translateY(-5px);
+    background:#dfefff;
 }
 
-.info{
-    margin-top:25px;
+#resultado,#topo{
+    margin-top:20px;
     background:white;
     padding:20px;
     border-radius:10px;
-    box-shadow:0 3px 10px rgba(0,0,0,.1);
 }
 
-.buttons{
-    text-align:center;
-    margin-bottom:20px;
-}
-
-button{
-    padding:12px 20px;
-    margin:10px;
-    border:none;
-    background:#1565c0;
-    color:white;
-    border-radius:6px;
-    cursor:pointer;
-    font-size:16px;
-}
-
-button:hover{
-    background:#0d47a1;
-}
-
-ul{
-    margin-left:20px;
-    margin-top:10px;
-}
-
-h3{
-    color:#0d47a1;
-    margin-bottom:10px;
+button.op{
+    padding:10px 20px;
+    margin:5px;
 }
 </style>
-</head>
 
+</head>
 <body>
 
 <header>
-    <h1>Guia Visual de Redes para Automação</h1>
+<h1>Guia Visual de Redes para Automação</h1>
 </header>
 
-<div class="tabs">
-    <div class="tab active" onclick="abrirAba('cabos', this)">
-        Cabos Industriais
-    </div>
+<nav>
+<button onclick="mostrar('cabos')">Cabos Industriais</button>
+<button onclick="mostrar('topologias')">Topologias</button>
+</nav>
 
-    <div class="tab" onclick="abrirAba('topologias', this)">
-        Topologias
-    </div>
+<section id="cabos" class="ativo">
+
+<div class="cards">
+
+<div class="card" onclick="cabo('par')">
+<h3>Par Trançado</h3>
 </div>
 
-<!-- CABOS -->
-<div id="cabos" class="content active">
+<div class="card" onclick="cabo('fibra')">
+<h3>Fibra Óptica</h3>
+</div>
 
-    <div class="cards">
-
-        <div class="card" onclick="mostrarCabo('par')">
-            <h2>Par Trançado</h2>
-        </div>
-
-        <div class="card" onclick="mostrarCabo('fibra')">
-            <h2>Fibra Óptica</h2>
-        </div>
-
-        <div class="card" onclick="mostrarCabo('wireless')">
-            <h2>Wireless</h2>
-        </div>
-
-    </div>
-
-    <div class="info" id="infoCabos">
-        Clique em um dos cartões para ver a explicação.
-    </div>
+<div class="card" onclick="cabo('wifi')">
+<h3>Wireless</h3>
+</div>
 
 </div>
 
-<!-- TOPOLOGIAS -->
-<div id="topologias" class="content">
-
-    <div class="buttons">
-        <button onclick="mostrarTopologia('estrela')">
-            Layout em Estrela
-        </button>
-
-        <button onclick="mostrarTopologia('barramento')">
-            Layout em Barramento
-        </button>
-    </div>
-
-    <div class="info" id="infoTopo">
-        Clique em um botão para visualizar a explicação.
-    </div>
-
+<div id="resultado">
+Clique em um cabo.
 </div>
+
+</section>
+
+<section id="topologias">
+
+<button class="op" onclick="topologia('estrela')">
+Layout em Estrela
+</button>
+
+<button class="op" onclick="topologia('barramento')">
+Layout em Barramento
+</button>
+
+<div id="topo">
+Escolha uma topologia.
+</div>
+
+</section>
 
 <script>
 
-function abrirAba(id, elemento){
+function mostrar(id){
 
-    document.querySelectorAll(".content").forEach(c=>{
-        c.classList.remove("active");
-    });
+document.getElementById("cabos").classList.remove("ativo");
+document.getElementById("topologias").classList.remove("ativo");
 
-    document.querySelectorAll(".tab").forEach(t=>{
-        t.classList.remove("active");
-    });
+document.getElementById(id).classList.add("ativo");
 
-    document.getElementById(id).classList.add("active");
-    elemento.classList.add("active");
 }
 
-function mostrarCabo(tipo){
+function cabo(tipo){
 
-    let texto="";
+let texto="";
 
-    if(tipo==="par"){
-        texto=`
-        <h3>Par Trançado</h3>
-        <p>
-        É muito usado para ligar CLPs, sensores, IHMs e computadores
-        dentro da fábrica em distâncias menores.
-        </p>
-        `;
-    }
-
-    if(tipo==="fibra"){
-        texto=`
-        <h3>Fibra Óptica</h3>
-        <p>
-        É usada para conectar setores da fábrica em longas distâncias
-        e locais com muita interferência elétrica.
-        </p>
-        `;
-    }
-
-    if(tipo==="wireless"){
-        texto=`
-        <h3>Wireless</h3>
-        <p>
-        É utilizado para conectar tablets, coletores de dados,
-        AGVs e equipamentos móveis sem uso de cabos.
-        </p>
-        `;
-    }
-
-    document.getElementById("infoCabos").innerHTML=texto;
+if(tipo=="par"){
+texto="<h2>Par Trançado</h2><p>Usado para ligar CLPs, sensores, computadores e IHMs dentro da fábrica.</p>";
 }
 
-function mostrarTopologia(tipo){
+if(tipo=="fibra"){
+texto="<h2>Fibra Óptica</h2><p>Usada em longas distâncias e locais com muita interferência elétrica.</p>";
+}
 
-    let texto="";
+if(tipo=="wifi"){
+texto="<h2>Wireless</h2><p>Usado para equipamentos móveis como tablets e coletores de dados.</p>";
+}
 
-    if(tipo==="estrela"){
+document.getElementById("resultado").innerHTML=texto;
 
-        texto=`
-        <h3>Layout em Estrela</h3>
+}
 
-        <p>
-        Todos os equipamentos são ligados a um equipamento central,
-        normalmente um switch industrial.
-        </p>
+function topologia(tipo){
 
-        <h4>Vantagens</h4>
-        <ul>
-            <li>Fácil manutenção.</li>
-            <li>Falha em um cabo não afeta os demais.</li>
-            <li>Boa organização da rede.</li>
-        </ul>
+let texto="";
 
-        <h4>Desvantagens</h4>
-        <ul>
-            <li>Maior quantidade de cabos.</li>
-            <li>Depende do equipamento central.</li>
-        </ul>
-        `;
-    }
+if(tipo=="estrela"){
 
-    if(tipo==="barramento"){
+texto="<h2>Layout em Estrela</h2><p>Todos os equipamentos são ligados a um switch.</p><h3>Vantagens</h3><ul><li>Fácil manutenção</li><li>Organização</li><li>Falhas isoladas</li></ul><h3>Desvantagens</h3><ul><li>Mais cabos</li><li>Depende do switch</li></ul>";
 
-        texto=`
-        <h3>Layout em Barramento</h3>
+}
 
-        <p>
-        Todos os equipamentos compartilham o mesmo cabo principal.
-        </p>
+if(tipo=="barramento"){
 
-        <h4>Vantagens</h4>
-        <ul>
-            <li>Menor quantidade de cabos.</li>
-            <li>Instalação simples.</li>
-        </ul>
+texto="<h2>Layout em Barramento</h2><p>Todos os equipamentos usam um único cabo principal.</p><h3>Vantagens</h3><ul><li>Menos cabos</li><li>Baixo custo</li></ul><h3>Desvantagens</h3><ul><li>Uma falha pode parar a rede</li><li>Manutenção mais difícil</li></ul>";
 
-        <h4>Desvantagens</h4>
-        <ul>
-            <li>Uma falha pode afetar toda a rede.</li>
-            <li>Mais difícil localizar problemas.</li>
-        </ul>
-        `;
-    }
+}
 
-    document.getElementById("infoTopo").innerHTML=texto;
+document.getElementById("topo").innerHTML=texto;
+
 }
 
 </script>
